@@ -1,7 +1,7 @@
 const main = document.querySelector("main");
 const root = document.querySelector(":root");
 const input = document.getElementById("input");
-const resultInput = document.getElementById("result");
+const result = document.getElementById("result");
 const allowedKeys = [
   "(",
   ")",
@@ -24,17 +24,7 @@ const allowedKeys = [
   " ",
 ];
 
-document.querySelectorAll(".charKey").forEach(function (charKeyBtn) {
-  charKeyBtn.addEventListener("click", function () {
-    const value = charKeyBtn.dataset.value;
-    input.value += value;
-  });
-});
-
-document.getElementById("clear").addEventListener("click", function () {
-  input.value = "";
-  input.focus();
-});
+input.focus();
 
 input.addEventListener("keydown", function (ev) {
   ev.preventDefault();
@@ -42,37 +32,39 @@ input.addEventListener("keydown", function (ev) {
     input.value += ev.key;
     return;
   }
-  if (ev.key === "Backspace") {
+  if (ev.key == "Backspace") {
     input.value = input.value.slice(0, -1);
   }
-  if (ev.key === "Enter") {
+  if (ev.key == "Enter") {
     calculate();
   }
+});
+
+document.querySelectorAll(".charKey").forEach(
+  ("click",
+  function (charKeyBtn) {
+    charKeyBtn.addEventListener("click", function () {
+      let valor = charKeyBtn.dataset.value;
+      input.value += valor;
+    });
+  })
+);
+
+document.getElementById("clear").addEventListener("click", function () {
+  input.value = "";
+  input.focus();
+  result.value = "";
+  result.classList.remove("error");
 });
 
 document.getElementById("equal").addEventListener("click", calculate);
 
 function calculate() {
-  resultInput.value = "ERROR";
-  resultInput.classList.add("error");
-  const result = eval(input.value);
-  resultInput.value = result;
-  resultInput.classList.remove("error");
+  result.value = "ERROR";
+  result.classList.add("error");
+  result.value = eval(input.value);
+  result.classList.remove("error");
 }
-
-document
-  .getElementById("copyToClipBoard")
-  .addEventListener("click", function (ev) {
-    const button = ev.currentTarget;
-    if (button.innerText === "Copy") {
-      button.innerText = "Copied!";
-      button.classList.add("success");
-      navigator.clipboard.writeText(resultInput.value);
-    } else {
-      button.innerText = "Copy";
-      button.classList.remove("success");
-    }
-  });
 
 document.getElementById("themeSwitcher").addEventListener("click", function () {
   if (main.dataset.theme == "dark") {
@@ -89,3 +81,17 @@ document.getElementById("themeSwitcher").addEventListener("click", function () {
     main.dataset.theme = "dark";
   }
 });
+
+document
+  .getElementById("copyToClipboard")
+  .addEventListener("click", function (ev) {
+    const button = ev.currentTarget;
+    if (button.innerText == "Copy") {
+      button.classList.add("success");
+      button.innerText = "Copied";
+      navigator.clipboard.writeText(result.value);
+    } else {
+      button.classList.remove("success");
+      button.innerText = "Copy";
+    }
+  });
