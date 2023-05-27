@@ -1,3 +1,7 @@
+import copy from "./copy.js";
+import themeSwitcher from "./themeSwitcher.js";
+import calculate from "./calculate.js";
+
 const input = document.getElementById("input");
 const result = document.getElementById("result");
 const allowedKeys = [
@@ -57,11 +61,8 @@ document.getElementById("clear").addEventListener("click", function () {
 
 document.getElementById("equal").addEventListener("click", calculate);
 
-function calculate() {
-  result.value = "ERROR";
-  result.classList.add("error");
-  result.value = eval(input.value);
-  result.classList.remove("error");
-}
+document.getElementById("copyToClipboard").addEventListener("click", copy);
 
-export { calculate };
+document
+  .getElementById("themeSwitcher")
+  .addEventListener("click", themeSwitcher);
